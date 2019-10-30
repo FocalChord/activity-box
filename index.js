@@ -41,9 +41,11 @@ Toolkit.run(
       `Activity for ${GH_USERNAME}, ${events.data.length} events found.`
     )
     
+    tools.log.debug(events.data)
+    
     const content = events.data
       // Filter out any boring activity
-//       .filter(event => serializers.hasOwnProperty(event.type))
+      .filter(event => serializers.hasOwnProperty(event.type))
       // We only have five lines to work with
       .slice(0, MAX_LINES)
       // Call the serializer to construct a string
