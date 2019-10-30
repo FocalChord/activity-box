@@ -40,8 +40,6 @@ Toolkit.run(
     tools.log.debug(
       `Activity for ${GH_USERNAME}, ${events.data.length} events found.`
     )
-    
-    tools.log.debug(events.data)
 
     const content = events.data
       // Filter out any boring activity
@@ -58,6 +56,7 @@ Toolkit.run(
     const box = new GistBox({ id: GIST_ID, token: GH_PAT })
     try {
       tools.log.debug(`Updating Gist ${GIST_ID}`)
+      tools.log.debug(events.data)
       await box.update({ content })
       tools.exit.success('Gist updated!')
     } catch (err) {
