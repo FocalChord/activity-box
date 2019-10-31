@@ -53,7 +53,7 @@ Toolkit.run(
       })
       .filter(event => event.type === 'PushEvent')
     
-    const commitCounter = (total, commit) => total + commit.payload.size
+    const commitCounter = (total, commit) => total + parseInt(commit.payload.size)
     const commitNum = commits.reduce(commitCounter)
     
     if (commitNum === 0) {
