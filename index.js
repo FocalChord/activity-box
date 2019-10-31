@@ -56,10 +56,14 @@ Toolkit.run(
     const commitCounter = (total, commit) => total + commit.payload.size
     const commitNum = commits.reduce(commitCounter)
     
-    if (commitNum === 0) const commitContent = `💻 No commits in the last week`
-    else const commitContent = commitNum > 1 
+    if (commitNum === 0) {
+      const commitContent = `💻 No commits in the last week`
+    }
+    else {
+      const commitContent = commitNum > 1 
           ? `💻 Pushed ${ commitNum } commits in the last week` 
           : `💻 Pushed ${ commitNum } commit in the last week`
+    }
         
     const extraContent = events.data
       // Filter out any boring activity
