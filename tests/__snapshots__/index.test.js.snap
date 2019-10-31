@@ -10,10 +10,10 @@ Array [
 
 exports[`activity-box updates the Gist with the expected string 1`] = `
 Object {
-  "content": "❗️ Opened issue #1 in clippy/take-over-github
+  "content": "💻 No commits in the last week
+❗️ Opened issue #1 in clippy/take-over-github
 🗣 Commented on #1 in clippy/take-over-github
 🎉 Merged PR #2 in clippy/take-over-github
-❌ Closed PR #3 in clippy/take-over-github
-🆒 Opened PR #3 in clippy/really-really-really-really-really...",
+❌ Closed PR #3 in clippy/take-over-github"
 }
 `;
