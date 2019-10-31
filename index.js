@@ -11,6 +11,12 @@ const serializers = {
   IssueCommentEvent: item => {
     return `🗣 Commented on #${item.payload.issue.number} in ${item.repo.name}`
   },
+  PushEvent: item => {
+    return `💻 Pushed ${item.payload.size} commits to ${item.repo.name}`
+  },
+  CreateEvent: item => {
+    return `🆕 Created new repo: ${item.repo.name}`
+  },
   IssuesEvent: item => {
     return `❗️ ${capitalize(item.payload.action)} issue #${
       item.payload.issue.number
