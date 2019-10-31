@@ -7,12 +7,10 @@ const capitalize = str => str.slice(0, 1).toUpperCase() + str.slice(1)
 const truncate = str =>
   str.length <= MAX_LENGTH ? str : str.slice(0, MAX_LENGTH - 3) + '...'
 
+
 const serializers = {
   IssueCommentEvent: item => {
     return `🗣 Commented on #${item.payload.issue.number} in ${item.repo.name}`
-  },
-  PushEvent: item => {
-    return `💻 Pushed ${item.payload.size} commits to ${item.repo.name}`
   },
   CreateEvent: item => {
     return `🆕 Created new repo: ${item.repo.name}`
@@ -46,18 +44,34 @@ Toolkit.run(
     tools.log.debug(
       `Activity for ${GH_USERNAME}, ${events.data.length} events found.`
     )
+    
+    const commits = events.data
+      .filter(event => {
+        const eventDate = Date(event.created_at)
+        // Return true if event is less than 1 week old
+        return eventDate.getTime() - Date.now().getTime() < 7 * 24 * 60 * 60 * 1000
+      }
+      .filter(event => event.type === 'PushEvent')
+    
+    const commitCounter = (total, commit) => total + commit.payload.size
+    const commitNum = commits.reduce(commitCounter)
+    
+    if (commitNum === 0) const commitContent = `💻 No commits in the last week`
+    else const commitContent = commitNum > 1 
+          ? `💻 Pushed ${ commitNum } commits in the last week` 
+          : `💻 Pushed ${ commitNum } commit in the last week`
         
-    const content = events.data
+    const extraContent = events.data
       // Filter out any boring activity
       .filter(event => serializers.hasOwnProperty(event.type))
-      // We only have five lines to work with
-      .slice(0, MAX_LINES)
+      // We only have four lines to work with for other info
+      .slice(0, MAX_LINES - 1)
       // Call the serializer to construct a string
       .map(item => serializers[item.type](item))
       // Truncate if necessary
       .map(truncate)
-      // Join items to one string
-      .join('\n')
+    
+    const content = [commitContent, ...extraContent].join('\n')
 
     const box = new GistBox({ id: GIST_ID, token: GH_PAT })
     try {
