@@ -50,7 +50,7 @@ Toolkit.run(
         const eventDate = Date(event.created_at)
         // Return true if event is less than 1 week old
         return eventDate.getTime() - Date.now().getTime() < 7 * 24 * 60 * 60 * 1000
-      }
+      })
       .filter(event => event.type === 'PushEvent')
     
     const commitCounter = (total, commit) => total + commit.payload.size
