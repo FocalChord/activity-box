@@ -53,8 +53,8 @@ Toolkit.run(
       })
       .filter(event => event.type === 'PushEvent')
     
-    const commitCounter = (total, commit) => total + parseInt(commit.payload.size)
-    const commitNum = commits.reduce(commitCounter)
+    const commitCounter = (total, commit) => total + commit.payload.size
+    const commitNum = commits.reduce(commitCounter, 0)
     
 
     var commitContent = `💻 No commits in the last week`
