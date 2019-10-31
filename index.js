@@ -67,6 +67,12 @@ Toolkit.run(
     const extraContent = events.data
       // Filter out any boring activity
       .filter(event => serializers.hasOwnProperty(event.type))
+      // For creation events we only want repository creations
+      .filter(event => {
+        if(event.type === 'CreateEvent') {
+         return event.payload.ref_type === 'repository'
+        } else return true
+      })
       // We only have four lines to work with for other info
       .slice(0, MAX_LINES - 1)
       // Call the serializer to construct a string
