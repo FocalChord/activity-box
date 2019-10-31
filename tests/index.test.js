@@ -71,6 +71,7 @@ describe('activity-box', () => {
   it('updates the Gist with the expected string', async () => {
     await action(tools)
     expect(GistBox.prototype.update).toHaveBeenCalled()
+    tools.log.debug(GistBox.prototype.update.mock.calls[0][0])
     expect(GistBox.prototype.update.mock.calls[0][0]).toMatchSnapshot()
   })
 
