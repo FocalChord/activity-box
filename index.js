@@ -15,6 +15,9 @@ const serializers = {
   CreateEvent: item => {
     return `🆕 Created new repo: ${item.repo.name}`
   },
+  ForkEvent: item => {
+    return `⑂ Forked repo: ${item.repo.name}`
+  },
   IssuesEvent: item => {
     return `❗️ ${capitalize(item.payload.action)} issue #${
       item.payload.issue.number
