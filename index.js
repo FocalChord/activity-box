@@ -9,14 +9,20 @@ const truncate = str =>
 
 
 const serializers = {
+  WatchEvent: item => {
+    return `🌟 Starred repo: ${item.repo.name}`
+  },
   IssueCommentEvent: item => {
     return `🗣 Commented on #${item.payload.issue.number} in ${item.repo.name}`
   },
   CreateEvent: item => {
-    return `🆕 Created new repo: ${item.repo.name}`
+    if(item.ref_type == 'repository')
+      return `🆕 Created new repo: ${item.repo.name}`
+    else
+      return `⑂ Created branch ${item.payload.ref} in repo: ${item.repo.name}`
   },
   ForkEvent: item => {
-    return `⑂ Forked repo: ${item.repo.name}`
+    return `ᛘ Forked repo: ${item.repo.name}`
   },
   IssuesEvent: item => {
     return `❗️ ${capitalize(item.payload.action)} issue #${
@@ -70,12 +76,6 @@ Toolkit.run(
     const extraContent = events.data
       // Filter out any boring activity
       .filter(event => serializers.hasOwnProperty(event.type))
-      // For creation events we only want repository creations
-      .filter(event => {
-        if(event.type === 'CreateEvent') {
-         return event.payload.ref_type === 'repository'
-        } else return true
-      })
       // We only have four lines to work with for other info
       .slice(0, MAX_LINES - 1)
       // Call the serializer to construct a string
