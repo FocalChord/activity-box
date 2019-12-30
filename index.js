@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 const { Toolkit } = require('actions-toolkit')
-const { GistBox, MAX_LINES, MAX_LENGTH } = require('gist-box')
+const { GistBox, MAX_LENGTH } = require('gist-box')
+const MAX_LINES = 20
 
 const capitalize = str => str.slice(0, 1).toUpperCase() + str.slice(1)
 const truncate = str =>
