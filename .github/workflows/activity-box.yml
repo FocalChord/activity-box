@@ -10,9 +10,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: Drewbi/activity-box@master
+      - uses: FocalChord/activity-box@master
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_USERNAME: Drewbi
-          GIST_ID: 3b5fb9e2efafe6433b6734f222cc2dc9
+          GH_USERNAME: FocalChord
+          GIST_ID: a98dadc00fcc5525a1b0750e77a2642a
