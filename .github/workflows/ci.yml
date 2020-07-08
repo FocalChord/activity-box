@@ -21,7 +21,3 @@ jobs:
           npm ci
         env:
           CI: true
-      - name: codecov
-        run: npx codecov
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
