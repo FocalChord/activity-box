@@ -8,7 +8,6 @@ const capitalize = str => str.slice(0, 1).toUpperCase() + str.slice(1)
 const truncate = str =>
   str.length <= MAX_LENGTH ? str : str.slice(0, MAX_LENGTH - 3) + '...'
 
-
 const serializers = {
   WatchEvent: item => {
     return `🌟 Starred repo: ${item.repo.name}`
@@ -17,7 +16,7 @@ const serializers = {
     return `🗣 Commented on #${item.payload.issue.number} in ${item.repo.name}`
   },
   CreateEvent: item => {
-    if(item.ref_type == 'repository')
+    if (item.ref_type == 'repository')
       return `🆕 Created new repo: ${item.repo.name}`
     else
       return `⑂ Created branch ${item.payload.ref} in repo: ${item.repo.name}`
@@ -35,9 +34,7 @@ const serializers = {
     const line = item.payload.pull_request.merged
       ? '🎉 Merged'
       : `${emoji} ${capitalize(item.payload.action)}`
-    return `${line} PR #${item.payload.pull_request.number} in ${
-      item.repo.name
-    }`
+    return `${line} PR #${item.payload.pull_request.number} in ${item.repo.name}`
   }
 }
 
@@ -54,7 +51,7 @@ Toolkit.run(
     tools.log.debug(
       `Activity for ${GH_USERNAME}, ${events.data.length} events found.`
     )
-    
+
     const commits = events.data
       .filter(event => {
         const eventDate = new Date(event.created_at)
@@ -62,18 +59,18 @@ Toolkit.run(
         return Date.now() - eventDate.getTime() < 7 * 24 * 60 * 60 * 1000
       })
       .filter(event => event.type === 'PushEvent')
-    
+
     const commitCounter = (total, commit) => total + commit.payload.size
     const commitNum = commits.reduce(commitCounter, 0)
-    
 
     var commitContent = `💻 No commits in the last week`
-    if(commitNum > 0) {
-      commitContent = commitNum > 1 
-          ? `💻 Pushed ${ commitNum } commits in the last week` 
-          : `💻 Pushed ${ commitNum } commit in the last week`
+    if (commitNum > 0) {
+      commitContent =
+        commitNum > 1
+          ? `💻 Pushed ${commitNum} commits in the last week`
+          : `💻 Pushed ${commitNum} commit in the last week`
     }
-        
+
     const extraContent = events.data
       // Filter out any boring activity
       .filter(event => serializers.hasOwnProperty(event.type))
@@ -83,8 +80,10 @@ Toolkit.run(
       .map(item => serializers[item.type](item))
       // Truncate if necessary
       .map(truncate)
-    
+
     const content = [commitContent, ...extraContent].join('\n')
+
+    console.log(content)
 
     const box = new GistBox({ id: GIST_ID, token: GH_PAT })
     try {
